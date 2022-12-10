@@ -48,3 +48,10 @@ export const articleGet = (params: IArticleParams) => {
 export const articlePut = (objectId: string, artObj: ArticleType) => {
   return request.put(`/classes/ReactArticle/${objectId}`, artObj);
 };
+
+//Echarts图表按照分类统计课程数
+export const chartGet = (classv1: string) => {
+  return request.get(
+    `/classes/ReactArticle?where={"classv1":"${classv1}"}&count=1&limit=0`
+  );
+};

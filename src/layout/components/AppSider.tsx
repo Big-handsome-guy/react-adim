@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import { mainroutes } from "../../router/index";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "@/store/hooks";
 
 const { Sider } = Layout;
+type MenuEventType = {
+  key: string;
+  keyPath: Array<string>;
+};
 
-type Props = {};
-
-export default function AppSider({}: Props) {
+export default function AppSider() {
   const [collapsed, setCollapsed] = useState(false);
+  const roleData = useAppSelector((state) => state.user.userInfo?.roleData);
   const navigate = useNavigate();
-  const handleMenu = (obj: any) => {
+  const handleMenu = (obj: MenuEventType) => {
     // console.log(obj);
     navigate(obj.key);
   };
@@ -23,11 +26,11 @@ export default function AppSider({}: Props) {
     >
       <div className="logo">知识付费平台</div>
       <Menu
-        onClick={handleMenu}
         theme="dark"
         defaultSelectedKeys={["1"]}
         mode="inline"
-        items={mainroutes}
+        items={roleData?.tree}
+        onClick={handleMenu}
       />
     </Sider>
   );

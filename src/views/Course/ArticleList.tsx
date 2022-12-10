@@ -1,12 +1,15 @@
-import { EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable, TableDropdown } from "@ant-design/pro-components";
-import { Button, Dropdown, Space, Image, Menu } from "antd";
+import { Button, Space, Image } from "antd";
 import { useRef } from "react";
 import { articleGet, IArticleParams } from "../../api/course";
 import { ArticleType } from "../../types/course";
 import { Link, useNavigate } from "react-router-dom";
 import querystring from "query-string";
+import { useAppSelector } from "@/store/hooks";
+
+let rolename = "";
 
 const columns: ProColumns<ArticleType>[] = [
   {
@@ -19,7 +22,7 @@ const columns: ProColumns<ArticleType>[] = [
     dataIndex: "name",
     copyable: true,
     ellipsis: true,
-    tip: "标题过长会自动收缩",
+    tip: "课程名称",
     formItemProps: {
       rules: [
         {
@@ -70,7 +73,11 @@ const columns: ProColumns<ArticleType>[] = [
     valueType: "option",
     key: "option",
     render: (text, record, _, action) => [
-      <Link to={`/course/edit?${querystring.stringify(record)}`}>编辑</Link>,
+      rolename === "超级管理员" ? (
+        <Link to={`/course/edit?${querystring.stringify(record)}`}>编辑</Link>
+      ) : (
+        ""
+      ),
       <a target="_blank" rel="noopener noreferrer" key="view">
         查看
       </a>,
@@ -89,6 +96,8 @@ const columns: ProColumns<ArticleType>[] = [
 export default () => {
   const actionRef = useRef<ActionType>();
   const navigate = useNavigate();
+  rolename = useAppSelector((state) => state.user.userInfo!.rolename);
+
   return (
     <ProTable<ArticleType>
       columns={columns}

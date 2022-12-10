@@ -53,11 +53,12 @@ const RoleForm: React.FC<IProps> = (props) => {
     // console.log(checkedKeys, e);
     // let {checkedNodes} = e
     let tempList: Array<string> = []; //临时记录后续找到的父级label，用来判断，避免出现多个相同父级
-    let result: Array<IMenuProps> = []; //记录最终处理后的被勾选的树形数据
+    let result: Array<any> = []; //记录最终处理后的被勾选的树形数据
     let checkedNodes = e.checkedNodes.filter((item: IMenuProps) => {
       //将没有children元素的主菜单挑出来
       if (item.nochild) {
-        result.push(item); //提取被勾选切没有子菜单的主菜单
+        let { key, label, title, nochild, hidden } = item;
+        result.push({ key, label, title, nochild, hidden }); //提取被勾选切没有子菜单的主菜单
       }
       return !item.children && !item.nochild; //过滤出所有被勾选的子菜单
     }); //拿到所有被勾选的子菜单
@@ -70,6 +71,8 @@ const RoleForm: React.FC<IProps> = (props) => {
           : false;
       });
       // console.log("父级", parent);
+      let { key, label, title, nochild, hidden } = item;
+      let treeItem = { key, label, title, nochild, hidden };
       if (!tempList.includes(parent?.label)) {
         // 第一次找到勾选元素的父级
         tempList.push(parent.label);
@@ -77,7 +80,7 @@ const RoleForm: React.FC<IProps> = (props) => {
           key: parent.key,
           label: parent.label,
           title: parent.title,
-          children: [item],
+          children: [treeItem],
         });
       } else {
         //有相同父级的勾选元素
@@ -85,7 +88,7 @@ const RoleForm: React.FC<IProps> = (props) => {
           (res: IMenuProps) => res.label === parent.label
         );
         if (myParent.children) {
-          myParent.children.push(item);
+          myParent.children.push(treeItem);
         }
       }
     });

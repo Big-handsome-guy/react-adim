@@ -1,5 +1,5 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
-import { userLogin, UserParpams } from "@/api/user";
+import { userLogin, UserParpams, roleGet, IRoleParams } from "@/api/user";
 import { NavigateFunction } from "react-router-dom";
 
 export interface UserInfoType {
@@ -9,6 +9,7 @@ export interface UserInfoType {
   sessionToken: string;
   username: string;
   avatar: string;
+  roleData: IRoleParams;
 }
 
 export interface UserStateType {
@@ -75,10 +76,18 @@ export const userLoginAsync = (
   dispatch(loginStart()); //开始登陆
   console.log("开始登录");
   userLogin(params)
-    .then((res) => {
+    .then(async (res) => {
       console.log("登录成功", res);
-      dispatch(loginSuccess({ info: res.data, remember: params.remember })); //登录成功
-      navigate("/");
+      let role = await roleGet(res.data.roleid);
+      console.log("角色权限数据包", role);
+
+      dispatch(
+        loginSuccess({
+          info: { ...res.data, roleData: role.data },
+          remember: params.remember,
+        })
+      ); //登录成功
+      navigate("/dashboard");
     })
     .catch((error) => {
       console.log("登录失败", error);

@@ -38,8 +38,9 @@ export const rolePost = (params: IRoleParams) => {
 };
 
 //角色列表
-export const roleGet = () => {
-  return request.get("/classes/ReactRole");
+export const roleGet = (roleid: string = "") => {
+  let id = roleid ? `/${roleid}` : "";
+  return request.get(`/classes/ReactRole${id}`);
 };
 
 //更新角色
@@ -61,4 +62,20 @@ export const roleBatchDel = (params: IRoleParams[]) => {
     };
   });
   return request.post("/batch", { requests });
+};
+
+export interface UserRegParams extends UserParpams {
+  roleid: string;
+  rolename: string;
+  roleidx: number;
+}
+
+//账号分配
+export const userReg = (params: UserRegParams) => {
+  return request.post("/users", params);
+};
+
+//用户列表
+export const userGet = () => {
+  return request.get("/users");
 };

@@ -31,7 +31,7 @@ const ArticleEdit: React.FC = () => {
       console.log(res);
     });
   };
-  const handleClassify = (cateArr: ClassifyTableType[]) => {
+  const handleClassify = (classifyArr: ClassifyTableType[]) => {
     // 将分类数据包处理为如下格式
     // [
     //   {
@@ -46,7 +46,7 @@ const ArticleEdit: React.FC = () => {
     //   },
     // ]
     let arr: CacaderType[] = [];
-    cateArr.forEach((item) => {
+    classifyArr.forEach((item) => {
       //提取主分类
       if (item.dadId === "0-0") {
         arr.push({
@@ -58,7 +58,7 @@ const ArticleEdit: React.FC = () => {
     });
     // console.log(arr);
     arr.forEach((item) => {
-      cateArr.forEach((child) => {
+      classifyArr.forEach((child) => {
         if (item.value === child.dadId) {
           item.children.push({
             value: child.objectId,

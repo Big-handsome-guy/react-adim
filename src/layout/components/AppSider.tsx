@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/store/hooks";
+import { mainroutes } from "@/router";
 
 const { Sider } = Layout;
 type MenuEventType = {
@@ -29,7 +30,8 @@ export default function AppSider() {
         theme="dark"
         defaultSelectedKeys={["1"]}
         mode="inline"
-        items={roleData?.tree}
+        // items={roleData?.tree}
+        items={mainroutes}
         onClick={handleMenu}
       />
     </Sider>

@@ -23,6 +23,7 @@ const columns: ProColumns<ArticleType>[] = [
     copyable: true,
     ellipsis: true,
     tip: "课程名称",
+    key: "name",
     formItemProps: {
       rules: [
         {
@@ -40,6 +41,7 @@ const columns: ProColumns<ArticleType>[] = [
     onFilter: true,
     ellipsis: true,
     valueType: "select",
+    key: "isvip",
     render: (bool, record) => {
       return record.isvip ? "会员课程" : "免费课程";
     },
@@ -59,6 +61,7 @@ const columns: ProColumns<ArticleType>[] = [
     title: "课程封面",
     dataIndex: "poster",
     search: false,
+    key: "poster",
     renderFormItem: (_, { defaultRender }) => {
       return defaultRender(_);
     },
@@ -104,7 +107,7 @@ export default () => {
       actionRef={actionRef}
       cardBordered
       request={async (params = {}, sort, filter) => {
-        console.log(sort, filter);
+        // console.log(sort, filter);
         let res = await articleGet(params as IArticleParams);
         return {
           data: res.data.results,
@@ -117,7 +120,7 @@ export default () => {
         persistenceKey: "pro-table-singe-demos",
         persistenceType: "localStorage",
         onChange(value) {
-          console.log("value: ", value);
+          // console.log("value: ", value);
         },
       }}
       rowKey="id"

@@ -13,6 +13,9 @@ import Role from "../views/Manager/Role";
 import User from "../views/Manager/User";
 import ArticleEdit from "../views/Course/ArticleEdit";
 import Setting from "@/views/setting";
+import MyMap from "@/views/Amap";
+import Export from "@/views/Excel/Export";
+import Import from "@/views/Excel/Import";
 
 export const mainroutes: IMenuProps[] = [
   {
@@ -84,5 +87,33 @@ export const mainroutes: IMenuProps[] = [
     icon: <IdcardOutlined />,
     element: <Setting />,
     nochild: 1,
+  },
+  {
+    key: "/map",
+    label: "高德地图",
+    title: "高德地图",
+    icon: <IdcardOutlined />,
+    element: <MyMap />,
+    nochild: 1,
+  },
+  {
+    key: "/excel",
+    label: "Excel表格",
+    title: "Excel表格",
+    icon: <SettingOutlined />,
+    children: [
+      {
+        key: "/excel/export",
+        label: "表格导出",
+        title: "表格导出",
+        element: <Export />,
+      },
+      {
+        key: "/excel/import",
+        label: "表格导入",
+        title: "表格导入",
+        element: <Import />,
+      },
+    ],
   },
 ];
